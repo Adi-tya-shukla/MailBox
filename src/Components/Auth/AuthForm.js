@@ -2,9 +2,12 @@ import { useState, useRef } from 'react';
 import classes from './AuthForm.module.css';
 import { useNavigate } from 'react-router';
 import { FaUser, FaKey } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { fetchUserData } from '../../Store/UserAction';
 
 
 const AuthForm = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const emailRef = useRef();
   const passRef = useRef();
@@ -45,49 +48,48 @@ console.log(enteredEmail);
       }
     }
     navigate('/home')
-    //   let url;
+      let url;
 
-    //   if (isLogin) {
-    //     url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDBUXC46Nhb92NFzchS0XTtwXge3LCkC80';
-    //   } else {
-    //     url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDBUXC46Nhb92NFzchS0XTtwXge3LCkC80';
-    //   }
+      if (isLogin) {
+        url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDZDXziHJ-k72uWQKqJVDcch170Y23Hdlg';
+      } else {
+        url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDZDXziHJ-k72uWQKqJVDcch170Y23Hdlg';
+      }
 
-    //   fetch(url, {
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       email: enteredEmail,
-    //       password: enteredPass,
-    //       returnSecureToken: true,
-    //     }),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //     .then((response) => {
-    //       setSending(false);
-    //       if (response.ok) {
-    //         return response.json();
-    //       } else {
-    //         return response.json().then((data) => {
-    //           console.log(data);
-    //           throw new Error(data.error.message);
-    //         });
-    //       }
-    //     })
-    //     .then((data) => {
-    //       dispatch(fetchUserData(data.idToken))
-    //       dispatch(fetchExpense( data.email.replace(/[@.]/g, '')))
-    //       const user ={
-    //         token : data.idToken,
-    //          email : data.email.replace(/[@.]/g, ''),
-    //       }
-    //       localStorage.setItem('userDetails',  JSON.stringify(user))
-    //       navigate('/home');
-    //     })
-    //     .catch((err) => {
-    //       setError(err.message);
-    //     });
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPass,
+          returnSecureToken: true,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          setSending(false);
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((data) => {
+              console.log(data);
+              throw new Error(data.error.message);
+            });
+          }
+        })
+        .then((data) => {
+          dispatch(fetchUserData(data.idToken))
+          const user ={
+            token : data.idToken,
+             email : data.email.replace(/[@.]/g, ''),
+          }
+          localStorage.setItem('userDetails',  JSON.stringify(user))
+          navigate('/home');
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
   };
 
   const handleForgotPassword = () => {

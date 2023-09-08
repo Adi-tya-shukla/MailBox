@@ -8,17 +8,20 @@ import {
   AiFillMail,
 } from "react-icons/ai";
 import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
-
+import { useSelector } from "react-redux";
 import "./Nav.css";
-
+import { useDispatch } from "react-redux";
+import { logOut } from "../../Store/UserAction";
 
 function Navbar() {
+const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(false);
-
+   const userName =  useSelector((state)=> state.userInfo.userName)
   const showSidebar = () => setSidebar(!sidebar);
 
   function handleLogoutClick() {
     console.log("User clicked on Logout");
+    dispatch(logOut());
   }
   return (
     <>
@@ -49,7 +52,7 @@ function Navbar() {
             <div className="nav-dropdown">
               <Link to="#" className="dropNav-text">
                 {UserProfile.icon}
-                <span>{UserProfile.title}</span>
+                <span>{userName != null ? userName : UserProfile.title}</span>
               </Link>
               <ul className="dropdown-menu">
                 <li className={UserProfile.dropdown[0].cName}>

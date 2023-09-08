@@ -3,16 +3,20 @@ import React, { useState,useRef } from "react";
 import './UserProfile.css';
 import * as FaIcons from "react-icons/fa";
 import { Form, Button, Alert } from 'react-bootstrap';
-
+import { useSelector,useDispatch } from "react-redux";
+import { onUpdate} from '../../Store/UserAction';
 
 const UserProfile = () => {
-
+const dispatch = useDispatch();
   const[changePass, setChangePass] = useState(false);
   const [valid, setValidity] = useState(true);
   const passRef = useRef();
   const pass2Ref = useRef();
   const nameRef = useRef();
   const profileRef = useRef();
+  const profilePicture = useSelector((state) => state.userInfo.profilePicture);
+  const userName = useSelector((state) => state.userInfo.userName);
+  const token = useSelector((state) => state.userInfo.token);
   const profilePIcDefault =
     "https://static.vecteezy.com/system/resources/previews/002/318/271/non_2x/user-profile-icon-free-vector.jpg";
 
@@ -23,9 +27,10 @@ const UserProfile = () => {
     const data ={
       name : name,
       profile : profile,
-      // token :token
+      token :token
     }
     console.log(data);
+    dispatch(onUpdate(data));
   };
   const checkValidity = (pass1, pass2) => {
     if (pass1 === pass2) {
@@ -76,8 +81,9 @@ const UserProfile = () => {
               <input
                 type="text"
                 className="form-control"
+                defaultValue={userName || ''}
                 ref={nameRef}
-                
+                required
                 id="exampleInputName"
                 placeholder="Enter full name"
               />
@@ -89,6 +95,8 @@ const UserProfile = () => {
                type="text"
                className="form-control"
                id="profilePhoto"
+               defaultValue={profilePicture || ''}
+            required
                ref={profileRef}
                placeholder="paste file link"
              />

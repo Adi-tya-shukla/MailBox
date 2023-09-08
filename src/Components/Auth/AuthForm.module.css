@@ -1,9 +1,10 @@
 .auth {
     width: 100%;
     max-width: 27rem;
-    border-radius: 75px 25px;
+    border-radius: 20px;
     padding: 1rem;
-
+    background: #e607072f;
+    border: 2px  solid white;
     text-align: center;
   }
   .container {

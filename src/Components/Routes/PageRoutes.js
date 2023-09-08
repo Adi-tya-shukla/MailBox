@@ -4,14 +4,26 @@ import HomePage from "../Pages/HomePage";
 import Login from "../Pages/LoginPage";
 import ForgotPassword from "../Auth/ForgotPassword";
 import Profile from "../Pages/Profile";
-const PageRoutes =()=>{
+const PageRoutes =({loggedIn})=>{
 return(
     <Fragment>
         <Routes>
-            <Route  path="/home" element={<HomePage/>}/>
-            <Route  path="/login" element={<Login/>}/>
-            <Route  path="/forgotpassword" element={<ForgotPassword/>}/>
-            <Route  path="/profile" element={<Profile/>}/>
+        {loggedIn && (
+            <Fragment>
+              <Route path="/*" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/profile" element={<Profile />} />
+            </Fragment>
+          )}
+  
+          {/* Pages which should render when the user is not logged in */}
+          {!loggedIn && (
+            <Fragment>
+              <Route path="/login" element={<Login />} />
+              <Route path="/*" element={<Login />} />
+              <Route path='/forgotPassword' element={<ForgotPassword />} />
+            </Fragment>
+          )}
         </Routes>
     </Fragment>
 );
