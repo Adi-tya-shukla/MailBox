@@ -1,6 +1,19 @@
+ ### Required Dependencies
+
+- `react-router`
+- `@reduxjs/toolkit`
+- `react-bootstrap`
+- `axios`
+- `file-saver`
+- `react-icons`
+- `react-redux`
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
 
 ## Available Scripts
 
