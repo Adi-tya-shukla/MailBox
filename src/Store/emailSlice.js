@@ -5,7 +5,8 @@ const emailSlice = createSlice({
   initialState: {
     recieved: [],
     send: [],
-    unread: 0,
+    total: 0,
+    unread : 0,
     trash :[],
   },
 
@@ -18,6 +19,9 @@ const emailSlice = createSlice({
     },
     unreadMessage(state, action) {
       state.unread = action.payload;
+    },
+    totalMessage(state, action) {
+      state.total = action.payload;
     },
     trashMail(state,action){
       state.trash = action.payload;

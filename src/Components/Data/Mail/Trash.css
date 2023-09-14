@@ -1,4 +1,6 @@
 /* Trash.css */
+
+/* Base styles for larger screens */
 .trashBody {
     background-color: #0c3f2663;
     border-radius: 10px;
@@ -34,10 +36,12 @@
     display: flex;
     flex-direction: column;
 }
-h5{
+
+h5 {
     text-align: center;
     color: #ffffff7e;
 }
+
 .trash-details {
     color: #8ac091;
     display: flex;
@@ -60,4 +64,23 @@ h5{
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .trashBody {
+        margin: 2rem 2rem; /* Adjust margins for smaller screens */
+    }
+    
+    .trash-title {
+        font-size: 24px; /* Reduce font size for smaller screens */
+    }
+    
+    .trash-item {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+    }
+    
+    .trash-details {
+        margin-left: 0; /* Remove left margin on smaller screens */
+    }
 }

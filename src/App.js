@@ -6,6 +6,7 @@ import Notification from './Components/Assets/Notication';
 import { useSelector, useDispatch } from 'react-redux';
 import { userAction } from './Store/UserSlice';
 import { fetchUserData,logOut } from './Store/UserAction';
+import { getInboxData,getSentData } from './Store/mailAction';
 
 function App() {
   const notification = useSelector((state) => state.userInfo.notification);
@@ -15,9 +16,13 @@ function App() {
   const loggedIn = useSelector((state) => state.userInfo.isLoggedIn)
   const token = useSelector((state) => state.userInfo.token)
   const email = useSelector((state) => state.userInfo.email)
-  
+  const mail = email.replace(/[@.]/g, "");
+
+
   useEffect(() => {
     dispatch(userAction.setLogin());
+    dispatch(getInboxData(mail));
+    dispatch(getSentData(mail))
   }, []);
   
   useEffect(() => {

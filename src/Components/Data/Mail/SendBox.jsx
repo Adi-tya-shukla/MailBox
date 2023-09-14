@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { Button, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { emailActions } from "../../../Store/emailSlice";
+
 import { Link } from "react-router-dom";
 import "./SendBox.css";
 import * as FaIcons from "react-icons/fa";
@@ -9,41 +9,17 @@ import * as FaIcons from "react-icons/fa";
 const SendBox = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.email.send);
-
-  const [loader, setloader] = useState(false);
   const email = useSelector((state) => state.userInfo.email);
   const mail = email.replace(/[@.]/g, "");
-
-  const GetData = useCallback(async () => {
-    try {
-      setloader(true);
-      let res = await fetch(
-        `https://mail-boxclient-eb982-default-rtdb.firebaseio.com/${mail}/sentMailbox.json`
-      );
-      let data = await res.json();
-      let arr = [];
-
-      for (let key in data) {
-        const id = key;
-        arr = [{ id: id, ...data[key] }, ...arr];
-
-        dispatch(emailActions.sendMail([...arr]));
-        setloader(false);
-      }
-    } catch (err) {
-      console.log(err);
-      setloader(false);
-    }
-  }, [mail, dispatch]);
-
+  
   const moveToTrash = async (id) => {
-    setloader(true);
+
     const res = await fetch(
       `https://mail-boxclient-eb982-default-rtdb.firebaseio.com/${mail}/sentMailbox/${id}.json`,
     );
     let data = await res.json();
     console.log(data);
-      GetData();
+   
       trash(data);
       DeleteHandler(id);
   };
@@ -73,19 +49,15 @@ const SendBox = () => {
 
     let data = await res;
     console.log(data);
-    GetData();
+  
   };
-  useEffect(() => {
-    GetData();
-  }, [GetData]);
 
   return (
     <>
        <div className="sendbox-card">
         <h2 className="sendbox-title">SentBox</h2>
         <ListGroup>
-          {loader && data.length > 0 && <h5>Loading....</h5>}
-          {!loader &&
+          {
             data !== null &&
             data.length > 0 &&
             data.map((email) => {
@@ -93,7 +65,7 @@ const SendBox = () => {
                 <ListGroup.Item key={email.id} className="sendbox-item">
                   <Link
                     to={`/sendmail/${email.id}`}
-                    className="sendbox-link"
+                    className="sendboxlk"
                   >
                     <span>
                       <b>To:</b> {email.to}

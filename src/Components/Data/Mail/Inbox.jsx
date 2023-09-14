@@ -1,45 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { Button, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { emailActions } from "../../../Store/emailSlice";
+import {  useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import './Inbox.css';
 import * as FaIcons from "react-icons/fa";
 import mailImg from '../../Assets/nomail-removebg-preview.png'
 
 const Inbox = () => {
-  const dispatch = useDispatch();
   const data = useSelector((state) => state.email.recieved);
   const email = useSelector((state) => state.userInfo.email);
   const mail = email.replace(/[@.]/g, "");
-  const [loader, setloader] = useState(false);
-  const GetData = useCallback(async () => {
-    try {
-      setloader(true);
-      let res = await fetch(
-        `https://mail-boxclient-eb982-default-rtdb.firebaseio.com/${mail}/inbox.json`
-
-      );
-      let data = await res.json();
-      let arr = [];
-      let unreadMsg = 0;
-
-      for (let key in data) {
-        if (data[key].read === true) {
-          unreadMsg++;
-        }
-        const id = key;
-        arr = [{ id: id, ...data[key] }, ...arr];
-
-        dispatch(emailActions.recievedMail([...arr]));
-        dispatch(emailActions.unreadMessage(unreadMsg));
-        setloader(false);
-      }
-    } catch (err) {
-      console.log(err);
-      setloader(false);
-    }
-  }, [mail, dispatch]);
+  
 
   const moveToTrash = async (id) => {
 
@@ -47,7 +18,6 @@ const Inbox = () => {
       `https://mail-boxclient-eb982-default-rtdb.firebaseio.com/${mail}/inbox/${id}.json`,
     );
     let data = await res.json();
-      GetData();
       trash(data);
       DeleteHandler(id);
   };
@@ -62,6 +32,7 @@ const Inbox = () => {
         },
       }
     );
+    console.log(response);
    }
   const DeleteHandler = async (id) => {
   
@@ -77,11 +48,9 @@ const Inbox = () => {
 
     let data = await res;
     console.log(data);
-    GetData();
+   
   };
-  useEffect(() => {
-    GetData();
-  }, [GetData]);
+
 
   return (
     <>
@@ -89,39 +58,47 @@ const Inbox = () => {
         <hr />
         <div className="InboxBody">
         <ListGroup>
-          {loader && data.length > 0 && <h5>Loading....</h5>}
+       
           {data.length === 0 &&(
           <div className="noMailbox">
           <h2 style={{ textAlign: "center" }}>You have not received any mail so far...!!!!</h2>
           <img src={mailImg} alt="noMail" />
         </div>
           )}
-          {!loader &&
+          {
             data !== null &&
             data.length > 0 &&
             data.map((email) => {
               return (
                 <ListGroup.Item
                   key={email.id}
-                  className="email-item" 
+                  className={email.read ? "email-item" : 'Uemail-item'} 
                 >
+                  {email.read && (
+                         <span>
+                        <p className="mt-2 me-3 ms-0" style={{ float: "left"}}>
+                          🟢
+                        </p>
+                        </span>
+                      )}
+                   
                   <Link
                     to={`/email/${email.id}`}
                     className="email-link"
                   >
                      <span>
-                     <span className="email-status">
-                      {email.read ? <FaIcons.FaEnvelopeOpenText/> : <FaIcons.FaEnvelopeSquare/>}
-                    </span>
                       <b>From:</b> {email.from}
-                    </span>
+                    
                     <br/>
+                   
+                    </span>
                     <span>
                       <b>Subject: </b>
                       {email.subject}
                     </span>
-                    <br/>
-                    
+                    <span style={{color: 'grey',}}>
+                      <div dangerouslySetInnerHTML={{ __html: email.message.substring(0,14)+'...'}}/>
+                    </span>
                   </Link>
                   <span className="email-date">
                       {new Date(email.time).toLocaleString()}

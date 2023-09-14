@@ -19,7 +19,7 @@ const ReadMails = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `https://mail-box-client-18fab-default-rtdb.firebaseio.com/${recievedMail}/inbox/${id}.json`,
+        `https://mail-boxclient-eb982-default-rtdb.firebaseio.com/${recievedMail}/inbox/${id}.json`,
         {
           method: "PATCH",
           body: JSON.stringify({
@@ -30,7 +30,7 @@ const ReadMails = () => {
           },
         }
       );
-      const data = await response;
+      const data = await response.json();
       console.log(data);
     };
     fetchData();

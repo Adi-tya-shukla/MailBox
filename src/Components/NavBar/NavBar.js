@@ -17,6 +17,7 @@ function Navbar() {
 const dispatch = useDispatch()
   const [sidebar, setSidebar] = useState(false);
    const userName =  useSelector((state)=> state.userInfo.userName)
+   const unread = useSelector((state)=>state.email.unread);
   const showSidebar = () => setSidebar(!sidebar);
 
   function handleLogoutClick() {
@@ -26,9 +27,14 @@ const dispatch = useDispatch()
   return (
     <>
       <div className="navbar">
-        <Link to="#" className="menu-bars">
-          <FaIcons.FaBars onClick={showSidebar} />
-        </Link>
+      <Link to="#" className="menu-bars">
+    <div className="sidebar-icon">
+      <FaIcons.FaBars onClick={showSidebar} />
+      {unread > 0 && (
+        <span className="badge">{unread}</span>
+       )} 
+    </div>
+  </Link>
         <Link to="/home" className="homeIcon">
           <h3>MailReach</h3>
           </Link>

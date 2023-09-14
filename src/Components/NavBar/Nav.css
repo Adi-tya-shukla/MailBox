@@ -5,6 +5,21 @@
     justify-content: flex-start;
     align-items: center;
   }
+  .sidebar-icon {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .badge {
+    position: absolute;
+    top: -8px; /* Adjust the vertical position as needed */
+    right: -8px; /* Adjust the horizontal position as needed */
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
   .homeIcon {
     text-decoration: none; 
     color: #d8e0e7; 
