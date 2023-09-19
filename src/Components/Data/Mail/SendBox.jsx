@@ -98,4 +98,3 @@ const SendBox = () => {
 };
 
 export default SendBox;
-

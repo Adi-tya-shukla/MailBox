@@ -23,7 +23,7 @@ function App() {
     dispatch(userAction.setLogin());
     dispatch(getInboxData(mail));
     dispatch(getSentData(mail))
-  }, []);
+  }, [email , token]);
   
   useEffect(() => {
     if (email && token) {
