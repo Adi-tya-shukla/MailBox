@@ -1,3 +1,9 @@
+
+# Features
+
+User-friendly interface. User authentication using Firebase. Fetch API to interact with a backend server for sending and receiving emails. Custom CSS and Bootstrap to create a visually appealing design. Responsive layout for seamless use on various devices.
+
+ 
  ### Required Dependencies
 
 - `react-router`
