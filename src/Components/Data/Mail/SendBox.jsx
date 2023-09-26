@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector ,useDispatch} from "react-redux";
+import { getSentData } from "../../../Store/mailAction";
 import { Link } from "react-router-dom";
 import "./SendBox.css";
 import * as FaIcons from "react-icons/fa";
@@ -11,7 +11,7 @@ const SendBox = () => {
   const data = useSelector((state) => state.email.send);
   const email = useSelector((state) => state.userInfo.email);
   const mail = email.replace(/[@.]/g, "");
-  
+  dispatch(getSentData(mail))
   const moveToTrash = async (id) => {
 
     const res = await fetch(

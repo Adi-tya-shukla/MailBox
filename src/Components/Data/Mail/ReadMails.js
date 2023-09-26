@@ -1,21 +1,22 @@
 import React, { Fragment } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {  useNavigate, useParams } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Navbar from "../../NavBar/NavBar";
 import { Card } from "react-bootstrap";
 import "./ReadSendMail.css"; // Import the CSS file
+import { getInboxData } from "../../../Store/mailAction";
 
 const ReadMails = () => {
   const history = useNavigate();
-
+   const dispatch = useDispatch();
   const { id } = useParams();
   const mails = useSelector((state) => state.email.recieved);
   const email =useSelector((state) => state.userInfo.email);
   const recievedMail = email.replace(/[@.]/g, "");
 
   const singleMail = mails.filter((item) => item.id === id);
-
+  dispatch(getInboxData(recievedMail));
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(

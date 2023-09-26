@@ -5,7 +5,7 @@ import classes from "./ComposeEmail.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { userAction } from "../../../Store/UserSlice";
-
+import { getSentData } from "../../../Store/mailAction";
 const ComposeEmail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -56,6 +56,7 @@ const ComposeEmail = () => {
       );
       let data = await response;
       console.log(data);
+      dispatch(getSentData(sEmail));  
       dispatch(
         userAction.showNotification({
           status: 'success',
